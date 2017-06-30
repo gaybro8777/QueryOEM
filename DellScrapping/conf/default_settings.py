@@ -10,7 +10,7 @@ Just study the code and be aware of malfunctioning!
 """
 
 # Support URL 
-DELL_SUPORT_URL = "http://http://www.dell.com/support/"
+DELL_SUPORT_URL = "http://www.dell.com/support/"
 
 # ID of the Input which will receive the Serialnumber
 DELL_SERIAL_INPUT_ID = "inputServiceTag"
