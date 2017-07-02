@@ -9,8 +9,11 @@ user will be able to specify a dictionary
 or the module will load default values 
 """
 
-from . import default_settings
-from ..errors import SettingsConsistency
+# Support URL 
+DELL_SUPPORT_URL = "http://www.dell.com/support/home/br/pt/brbsdt1/TagEntry/ValidateSerialNumberEntry"
+
+# ID of the Input which will receive the Serialnumber
+DELL_TAGS_INPUT_ID = "inputServiceTag"
 
 class Settings:
     '''Retrieve a dict of settings'''
@@ -19,11 +22,17 @@ class Settings:
 
         self.settings = {}
 
-        if not 'DELL_SUPORT_URL' in settings:
-            self.settings['HOME_URL'] = default_settings.DELL_SUPORT_URL
+        if not 'DELL_SUPPORT_URL' in settings:
+            global DELL_SUPPORT_URL
+            self.settings['DELL_SUPPORT_URL'] = DELL_SUPPORT_URL
+        else:
+             self.settings['DELL_SUPPORT_URL'] = settings['DELL_SUPPORT_URL']
         
-        if not 'DELL_SERIAL_INPUT_ID' in settings:
-            self.settings['SERIAL_INPUT_ID'] = default_settings.DELL_SERIAL_INPUT_ID
+        if not 'DELL_TAGS_INPUT_ID' in settings:
+            global DELL_TAGS_INPUT_ID
+            self.settings['DELL_TAGS_INPUT_ID'] = DELL_TAGS_INPUT_ID
+        else:
+            self.settings['DELL_TAGS_INPUT_ID'] = settings['DELL_TAGS_INPUT_ID']
 
     def conf(self):
         return self.settings
