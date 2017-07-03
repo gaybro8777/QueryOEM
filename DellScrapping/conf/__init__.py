@@ -9,30 +9,33 @@ user will be able to specify a dictionary
 or the module will load default values 
 """
 
-# Support URL 
-DELL_SUPPORT_URL = "http://www.dell.com/support/home/br/pt/brbsdt1/TagEntry/ValidateSerialNumberEntry"
-
-# ID of the Input which will receive the Serialnumber
-DELL_TAGS_INPUT_ID = "inputServiceTag"
+# DELL URIs 
+DELL_SUPPORT_WARRANTY = "http://www.dell.com/support/home/br/pt/brdhs1/product-support/servicetag/{0}/warranty"
+DELL_SUPPORT_CONFIG = "http://www.dell.com/support/home/br/pt/brdhs1/product-support/servicetag/{0}/configuration"
 
 class Settings:
     '''Retrieve a dict of settings'''
 
     def __init__(self, **settings):
 
-        self.settings = {}
+        self.conf = {}
 
-        if not 'DELL_SUPPORT_URL' in settings:
-            global DELL_SUPPORT_URL
-            self.settings['DELL_SUPPORT_URL'] = DELL_SUPPORT_URL
+        # Dell variables
+        if not 'DELL_SUPPORT_WARRANTY' in settings['settings']:
+            global DELL_SUPPORT_WARRANTY
+            self.conf['DELL_SUPPORT_WARRANTY'] = DELL_SUPPORT_WARRANTY
         else:
-             self.settings['DELL_SUPPORT_URL'] = settings['DELL_SUPPORT_URL']
+             self.conf['DELL_SUPPORT_WARRANTY'] = settings['settings']['DELL_SUPPORT_WARRANTY']
         
-        if not 'DELL_TAGS_INPUT_ID' in settings:
-            global DELL_TAGS_INPUT_ID
-            self.settings['DELL_TAGS_INPUT_ID'] = DELL_TAGS_INPUT_ID
+        if not 'DELL_SUPPORT_CONFIG' in settings['settings']:
+            global DELL_SUPPORT_CONFIG
+            self.conf['DELL_SUPPORT_CONFIG'] = DELL_SUPPORT_CONFIG
         else:
-            self.settings['DELL_TAGS_INPUT_ID'] = settings['DELL_TAGS_INPUT_ID']
+            self.conf['DELL_SUPPORT_CONFIG'] = settings['settings']['DELL_SUPPORT_CONFIG']
 
-    def conf(self):
-        return self.settings
+        # Part number variable
+        if 'PART_NUMBER' in settings['settings']:
+            self.conf['PART_NUMBER'] = settings['settings']['PART_NUMBER']
+
+    def config(self):
+        return self.conf

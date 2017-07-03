@@ -6,12 +6,16 @@ Date: 30/06/2017
 '''
 
 import scrapping
-import conf
 
-part_nums = ['65G7CD2']
+# Random service tag to check functionality
+part_num = '65G7CD2'
 
+# Instantiate a Scrapper object
 try:
-    obj = scrapping.ScrappingOEM(part_nums)
+    obj = scrapping.ScrappingOEM(PART_NUMBER=part_num)
+    obj.get_from_dell()
 except BaseException as e:
     print(">> Error instantiating main Class: {0}".format(e))
     raise
+
+print(obj.dell_data)

@@ -15,7 +15,7 @@ class InvalidSerialList(Exception):
     '''Raise exceptions for Serial List '''
     
     def __init__(self, text):
-        super(InvalidSerialList, self).__init__(self, "Serial List error: {0}".format(text))
+        super(InvalidSerialList, self).__init__(self, "Part Number error: {0}".format(text))
 
 class RequestFailed(Exception):
     '''Raise exeptions for request errors'''
@@ -29,7 +29,13 @@ class RequestFailed(Exception):
             super(RequestFailed, self).__init__(self,"404 - Page not Found")
 
         else:
-            super(RequestFailed, self).__init__(self,"Unkown error during the request: {}".format(str(error_code)))
+            super(RequestFailed, self).__init__(self,"Unkown error during the request: {0}".format(str(error_code)))
+
+class DellScrapperFailure(Exception):
+    '''Raise exceptions during dell procedure'''
+
+    def __init__(self, text):
+        super(DellScrapperFailure, self).__init__(self, 'Failure while scrapping DELL: {0}'.format(text))
 
 class CheckSettings:
     '''Check settings consistency'''
@@ -42,14 +48,14 @@ class CheckSettings:
             raise
 
         # Check Settings Consistency
-        if not settings['DELL_SUPPORT_URL']:
-            if not hasattr(settings, 'DELL_SUPPORT_URL'):
-                raise errors.SettingsConsistency("DELL_SUPPORT_URL")
+        if not settings['DELL_SUPPORT_WARRANTY']:
+            if not hasattr(settings, 'DELL_SUPPORT_WARRANTY'):
+                raise SettingsConsistency("DELL_SUPPORT_WARRANTY")
         else:
-            print('User difined DELL_SUPPORT_URL as "{0}"'.format(settings['DELL_SUPPORT_URL']))
+            print('User difined DELL_SUPPORT_WARRANTY as "{0}"'.format(settings['DELL_SUPPORT_WARRANTY']))
         
-        if not settings['DELL_TAGS_INPUT_ID']:
-            if not hasattr(settings, 'DELL_TAGS_INPUT_ID'):
-                raise errors.SettingsConsistency("DELL_TAGS_INPUT_ID")
+        if not settings['DELL_SUPPORT_CONFIG']:
+            if not hasattr(settings, 'DELL_SUPPORT_CONFIG'):
+                raise SettingsConsistency("DELL_SUPPORT_CONFIG")
         else:
-            print('User difined DELL_SUPPORT_URL as "{0}"'.format(settings['DELL_TAGS_INPUT_ID']))
+            print('User difined DELL_SUPPORT_CONFIG as "{0}"'.format(settings['DELL_SUPPORT_CONFIG']))
