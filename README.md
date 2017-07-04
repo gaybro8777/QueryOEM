@@ -8,7 +8,7 @@ Just issue ```pip install QueryOEM```
 Only DELL is supported at this moment
 
 # Usage
-There are two diferent classes. <QueryOEM> will query a single equipment and <MultipleQueryOEM> is a wrapper
+There are two diferent classes. **QueryOEM** will query a single equipment and **MultipleQueryOEM** is a wrapper
 which will return a list of <QueryOEM>
 
 ## Quering a single equipment
@@ -43,3 +43,4 @@ JSON = assets_list.json_from_dell()
 fopen = open('c:/temp/assets_list.json', 'w')
 fopen.write(JSON)
 fopen.close()
+```
