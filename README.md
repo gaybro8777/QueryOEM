@@ -9,7 +9,9 @@ Only DELL is supported at this moment
 
 # Usage
 There are two diferent classes. **QueryOEM** will query a single equipment and **MultipleQueryOEM** is a wrapper
-which will return a list of <QueryOEM>
+which will return a list of **QueryOEM** instances.
+
+Check the following usage for both classes:
 
 ## Quering a single equipment
 ```python
