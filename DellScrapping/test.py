@@ -14,8 +14,10 @@ this module may stop working. It's imperative to test this module periodcaly
 
 import scrapping
 
-# Service tags to check functionality
+# Test variables 
 part_num_list = [] # Several service tags - MultiQueryTest()
+multi_query_file = 'c:/temp/multiquerydell.json' # Target output for multiple querys
+single_query_file = 'c:/temp/singlequerydell.json' # Target output for single query
 
 
 def MultiQueryTest():
@@ -33,12 +35,12 @@ def MultiQueryTest():
         raise
     
     # Output JSON for Multi Query
-    fopen = open('c:/temp/multiquerydell.json', 'w')
+    fopen = open(multi_query_file, 'w')
     fopen.write(json_data)
     fopen.close()
 
     # Output JSON for single Query
-    fopen = open('c:/temp/singlequerydell.json', 'w')
+    fopen = open(single_query_file, 'w')
     fopen.write(single_json)
     fopen.close()
 

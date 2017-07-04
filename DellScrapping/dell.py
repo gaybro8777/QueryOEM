@@ -63,25 +63,34 @@ class DellScrapper():
             date_send = converters.verb_month_to_number_br(date_send) # Convert to enumerated month
             date_send = datetime.strptime(date_send, '%m%d%Y').strftime('%m/%d/%y') # format date
 
-            # Warranty start date
-            start_warranty = tr[2].find_all('td')[1].text # Return raw text
-            start_warranty = start_warranty.replace('\r\n', '').replace(',','').replace(' ','') # Remove bad chars
-            start_warranty = converters.verb_month_to_number_br(start_warranty) # Convert to enumerated month
-            start_warranty = datetime.strptime(start_warranty, '%m%d%Y').strftime('%m/%d/%y') # format date
-            
-            # Warranty end date
-            end_warranty = tr[2].find_all('td')[2].text
-            end_warranty = converters.verb_month_to_number_br(end_warranty)
-            end_warranty = end_warranty.replace(',','').replace(' ','')
-            end_warranty = datetime.strptime(end_warranty, '%m%d%Y').strftime('%m/%d/%y')
+            # Warrantys
+            all_warrantys = []
+            warrantys = b.find('tbody')
+            for warranty in warrantys.find_all('tr'):
+                
+                # Date start warranty
+                start_warranty = warranty.find_all('td')[1].text
+                start_warranty = start_warranty.replace('\r\n', '').replace(',','').replace(' ','').replace('\n','') # Remove bad chars
+                start_warranty = converters.verb_month_to_number_br(start_warranty) # Convert to enumerated month
+                start_warranty = datetime.strptime(start_warranty, '%m%d%Y').strftime('%m/%d/%y') # format date
+
+                # Date end warranty
+                end_warranty = warranty.find_all('td')[2].text
+                end_warranty = converters.verb_month_to_number_br(end_warranty)
+                end_warranty = end_warranty.replace(',','').replace(' ','')
+                end_warranty = datetime.strptime(end_warranty, '%m%d%Y').strftime('%m/%d/%y')
+
+                w = {
+                    'plan': warranty.find_all('td')[0].text,
+                    'start': start_warranty,
+                    'end': end_warranty,
+                }
+                all_warrantys.append(w)
+
         except:
             raise errors.DellScrapperFailure("failed when passing warranty to dict")
 
-        return {
-            'sended': date_send,
-            'start_warranty': start_warranty,
-            'end_warranty': end_warranty,
-        }
+        return all_warrantys
 
     def sysconfig_to_dict(self, content):
         '''Create a dictionary containing system configuration'''
@@ -102,12 +111,18 @@ class DellScrapper():
                 # component header
                 part = colapsed.find("span", {"class": "show-collapsed"}).text.split(':')
                 code = part[0][:-1]
-                description = part[1][1:]
-                components.append({'code':code, 'description':description})
+               
+                # There is no description in some cases
+                if len(part) > 1:
+                    description = part[1][1:]
+                else:
+                    description = ''
 
+                components.append({'code':code, 'description':description})
+            
 
         except:
-            raise errors.DellScrapperFailure("failed when passing warranty to dict")
+            raise errors.DellScrapperFailure("failed when passing system config to dict")
 
         return {
             'model': model,
