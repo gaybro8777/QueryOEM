@@ -12,12 +12,17 @@ WARNING. If you're planning to use the <MultipleQueryOEM> you need to know 2 thi
     2. The OEM may request a CAPTCHA after too much requests
 So, don't make your service tag list too big 
 '''
-
-import conf
-import dell
-import errors
 import json
 
+if __name__ == '__main':
+	import conf
+	import dell
+	import errors
+else:
+	import QueryOEM.conf as conf
+	import QueryOEM.dell as dell
+	import QueryOEM.errors as errors
+	
 class QueryOEM:
     '''Class responsible for the Scrapping'''
 

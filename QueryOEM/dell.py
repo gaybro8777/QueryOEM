@@ -13,11 +13,18 @@ If you're planning to update it by yourself, do it on the following methods:
 
 Don't forget to <return> the result dictionary at the end of the methods!  
 '''
+
 import requests
-import errors
-import converters
 from datetime import datetime
 from bs4 import BeautifulSoup as bs
+
+if __name__ == '__main':
+	import errors
+	import converters
+else:
+	import QueryOEM.errors as errors
+	import QueryOEM.converters as converters
+	
 
 class DellScrapper():
     '''Dell Web scrapping'''
