@@ -16,6 +16,7 @@ So, don't make your service tag list too big
 import conf
 import dell
 import errors
+import json
 
 class QueryOEM:
     '''Class responsible for the Scrapping'''
@@ -25,6 +26,9 @@ class QueryOEM:
         # Settings    
         config = conf.Settings(settings=settings)
         self.settings = config.config()
+
+        # Initialize _dell_data
+        self._dell_data = {} 
 
         # Check if partnumber was entered
         if not 'PART_NUMBER' in self.settings:
@@ -59,8 +63,12 @@ class QueryOEM:
             config_url=self.settings['DELL_SUPPORT_CONFIG'],
             partnumber=self.settings['PART_NUMBER']
         )
-        self.dell_data = dell_scrapper.data
+        pn = self.settings['PART_NUMBER']
+        self.dell_data[pn] = dell_scrapper.data
 
+    def json_from_dell(self):
+        '''Return serialized data to json'''
+        return json.dumps(self._dell_data)
 
 class MultipleQueryOEM:
     '''Main class wraper to query multiple tags'''
@@ -105,4 +113,11 @@ class MultipleQueryOEM:
             )
             query.get_from_dell()
             self._results.append(query)
-            
+    
+    def json_from_dell(self):
+        '''Return serialized data to json'''
+        items = []
+        for i in self._results:
+            items.append(i.dell_data)
+
+        return json.dumps(items)
