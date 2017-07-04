@@ -6,15 +6,18 @@ Date: 30/06/2017
 
 Core of this module.
 Make sure you understand the the Requests lib & Beatifull Soup 4 lib
-before reading this code. It'll change your life, i promisse you!
 
+WARNING. If you're planning to use the <MultipleQueryOEM> you need to know 2 thigs:
+    1. This code is not multi threading
+    2. The OEM may request a CAPTCHA after too much requests
+So, don't make your service tag list too big 
 '''
 
 import conf
 import dell
 import errors
 
-class ScrappingOEM:
+class QueryOEM:
     '''Class responsible for the Scrapping'''
 
     def __init__(self, **settings):
@@ -59,5 +62,47 @@ class ScrappingOEM:
         self.dell_data = dell_scrapper.data
 
 
+class MultipleQueryOEM:
+    '''Main class wraper to query multiple tags'''
+    
+    @property
+    def results(self):
+        '''Persist Query instances'''
+        return self._results
 
+    def __init__(self, servicetags, **settings):
 
+        # Check if service tags were passed correctly
+        if not ((isinstance(servicetags, list)) or (isinstance(servicetags, tuple))):
+            raise errors.InvalidSerialList("Parameter <List> or <tuple> required")
+
+        # Settings    
+        config = conf.Settings(settings=settings)
+        self.settings = config.config()
+
+        # Initialize Results property
+        self._results = []
+        
+        # Persist services tags
+        self.part_numbers = []
+        for i in servicetags:
+            self.part_numbers.append(i) 
+
+    def get_from_dell(self, verbose=True):
+        '''Query all tags on Dell'''
+        
+        def std(txt):
+            if verbose:
+                print(txt)
+        
+        std("Start Quering the list...")
+        for st in self.part_numbers:
+            std("Quering {0}".format(st))
+            query = QueryOEM(
+                DELL_SUPPORT_WARRANTY = self.settings['DELL_SUPPORT_WARRANTY'], 
+                DELL_SUPPORT_CONFIG = self.settings['DELL_SUPPORT_CONFIG'],
+                PART_NUMBER = st,
+            )
+            query.get_from_dell()
+            self._results.append(query)
+            

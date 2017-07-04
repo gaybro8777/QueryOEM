@@ -90,17 +90,29 @@ class DellScrapper():
             table = b.find_all("table", {"class":"table"})
 
             # Get model
-            model = table[0].find_all("td")[3].string
+            model = table[0].find_all("td")[3].string.replace('\r\n','').replace(' ','')
 
             # Get country
-            country = table[0].find_all("td")[7].string
+            country = table[0].find_all("td")[7].string.replace('\r\n','').replace(' ','')
+
+            # Components
+            comps = b.find_all("div", {"class":"top-offset-20"})
+            components = []
+            for colapsed in comps[:-1]:
+                # component header
+                part = colapsed.find("span", {"class": "show-collapsed"}).text.split(':')
+                code = part[0][:-1]
+                description = part[1][1:]
+                components.append({'code':code, 'description':description})
+
 
         except:
             raise errors.DellScrapperFailure("failed when passing warranty to dict")
 
         return {
             'model': model,
-            'country': country
+            'country': country,
+            'components': components
         }
 
     def make_requests(self, warranty_url, sysconfig_url):
