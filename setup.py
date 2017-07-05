@@ -13,7 +13,7 @@ requirements = ['beautifulsoup4','requests']
 
 setup(
     name='QueryOEM',
-    version='1.0.0',
+    version='1.0.1',
     description=('Query OEM for product informations'),
     long_description=readme + '\n\n' + history,
     author="Fabricio Roberto reinert",

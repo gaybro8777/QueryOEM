@@ -14,7 +14,7 @@ So, don't make your service tag list too big
 '''
 import json
 
-if __name__ == '__main':
+if __name__ == '__main__':
 	import conf
 	import dell
 	import errors

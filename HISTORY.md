@@ -6,3 +6,6 @@ Query OEM for information about workstations, laptops, servers and others.
 - Support Dell OEM
 - Query single/multuple service tags
 - Export to json
+
+1.0.1 07/05/2017
+- Dell: Added Send date from vendor on the response
