@@ -51,9 +51,12 @@ class DellScrapper():
         ) 
 
         # Parse, process and persist data into a dictionary 
+        warranty, send_date = self.warranty_to_dict(r_warranty)
+        system_configuration = self.sysconfig_to_dict(r_syconfig)
         self.data = {
-            'warranty': self.warranty_to_dict(r_warranty),
-            'sysconfig': self.sysconfig_to_dict(r_syconfig)
+            'send_date': send_date,
+            'warranty': warranty,
+            'sysconfig': system_configuration
         }
 
     def warranty_to_dict(self, content):
@@ -97,7 +100,7 @@ class DellScrapper():
         except:
             raise errors.DellScrapperFailure("failed when passing warranty to dict")
 
-        return all_warrantys
+        return all_warrantys, date_send
 
     def sysconfig_to_dict(self, content):
         '''Create a dictionary containing system configuration'''
