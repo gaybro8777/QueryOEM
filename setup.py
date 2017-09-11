@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from setuptools import setup, find_packages
-
+import QueryOEM
 with open('README.md') as readme_file:
     readme = readme_file.read()
 
@@ -13,7 +13,7 @@ requirements = ['beautifulsoup4','requests']
 
 setup(
     name='QueryOEM',
-    version='1.0.1',
+    version=QueryOEM.__version__,
     description=('Query OEM for product informations'),
     long_description=readme + '\n\n' + history,
     author="Fabricio Roberto reinert",

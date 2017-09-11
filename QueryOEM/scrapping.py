@@ -8,9 +8,8 @@ Core of this module.
 Make sure you understand the the Requests lib & Beatifull Soup 4 lib
 
 WARNING. If you're planning to use the <MultipleQueryOEM> you need to know 2 thigs:
-    1. This code is not multi threading
-    2. The OEM may request a CAPTCHA after too much requests
-So, don't make your service tag list too big 
+    1. This code is not multi threaded
+    2. The OEM may request a CAPTCHA after too much requests. Don't make your service tag list too big 
 '''
 import json
 
@@ -22,7 +21,7 @@ else:
 	import QueryOEM.conf as conf
 	import QueryOEM.dell as dell
 	import QueryOEM.errors as errors
-	
+
 class QueryOEM:
     '''Class responsible for the Scrapping'''
 

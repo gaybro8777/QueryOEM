@@ -1,4 +1,2 @@
-if __name__ == '__main':
-	from scrapping import QueryOEM, MultipleQueryOEM
-else:
-    from QueryOEM.scrapping import QueryOEM, MultipleQueryOEM
+from QueryOEM.scrapping import QueryOEM, MultipleQueryOEM
+__version__ = '1.0.2'
