@@ -7,9 +7,9 @@ Date: 11/09/2017
 from QueryOEM import scrapping as s
 
 cli_help_file = '''
---------------------------
-QueryOEM CLI - Single Tag 
---------------------------
+-------------------------
+QueryOEM CLI - Text file
+-------------------------
 Arguments
     - (Required) origin - Path to file containing service tags (1 per line)
     - (Required) output - Path to output file: Path to save output file
@@ -23,9 +23,9 @@ Example:
 '''
 
 cli_help_singletag = '''
--------------
-QueryOEM CLI
--------------
+--------------------------
+QueryOEM CLI - Single Tag
+--------------------------
 Arguments
     - (Required) tag - Tag code
     - (Required) vendor - OEM name. Default is Dell
@@ -34,9 +34,9 @@ Example:
 '''
 
 cli_help ='''
----------------------------
-QueryOEM CLI - Single Tag
----------------------------
+-------------
+QueryOEM CLI
+-------------
 CLI arguments:
     - python -m QueryOEM.cli --file : Query OEM using a a file containing tags
     - python -m QueryOEM.cli --tag : Query OEM using a single tag

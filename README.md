@@ -8,12 +8,54 @@ Just issue ```pip install QueryOEM```
 Only DELL is supported at this moment
 
 # Usage
+
+## CLI usage
+
+You can use it directly on the terminal
+
+### Query a single tag
+You can query a single tag using ```python3 -m QueryOEM.cli --tag <vendor> <servicetag>
+
+Arguments
+    - (Required) tag - Tag code
+    - (Required) vendor - OEM name. Default is Dell
+
+Example
+```python
+python  -m QueryOEM.cli --tag dell A2DA3CR
+```
+
+### Query using a text file
+
+You can also create a tags.txt file, add 1 tag per line and query them in one single shot
+
+Arguments
+    - (Required) origin - Path to file containing service tags (1 per line)
+    - (Required) output - Path to output file: Path to save output file
+    - (Optional) vendor - Vendor - Default Dell
+    - (Optional) format - Output format - Default JSON 
+
+```python3 -m QueryOEM.cli --file origin=<text_file> output=<c:/temp/myfile>
+
+Example:
+
+tags.txt
+```
+ABC1234
+QWE1234
+IOP4321
+```
+
+```python -m QueryOEM.cli --file origin=tags.txt output=c:/temp/my_assets```
+
+## Embedded to your code
+
 There are two diferent classes. **QueryOEM** will query a single equipment and **MultipleQueryOEM** is a wrapper
 which will return a list of **QueryOEM** instances.
 
 Check the following usage for both classes:
 
-## Quering a single equipment
+### Quering a single equipment
 ```python
 import QueryOEM
 
@@ -29,7 +71,7 @@ fopen.write(my_laptop.json_from_dell())
 fopen.close()
 ```
 
-## Quering multiple equipments
+### Quering multiple equipments
 ```python
 import QueryOEM
 

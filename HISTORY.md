@@ -12,3 +12,6 @@ Query OEM for information about workstations, laptops, servers and others.
 
 1.0.2 12/09/2017
 - Added CLI support by using python -m QueryOEM.cli
+
+1.0.3 12/09/2017
+- Small changes on CLI help text
