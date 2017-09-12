@@ -9,3 +9,6 @@ Query OEM for information about workstations, laptops, servers and others.
 
 1.0.1 07/05/2017
 - Dell: Added Send date from vendor on the response
+
+1.0.2 12/09/2017
+- Added CLI support by using python -m QueryOEM.cli
