@@ -45,20 +45,29 @@ class DellScrapper():
             sysconfig_url=self.conf['config_url']
         ) 
 
-        # Parse, process and persist data into a dictionary 
-        warranty, send_date = self.warranty_to_dict(r_warranty)
-        system_configuration = self.sysconfig_to_dict(r_syconfig)
-        self.data = {
-            'send_date': send_date,
-            'warranty': warranty,
-            'sysconfig': system_configuration
+        # Check if Tag was found
+        if r_warranty or r_syconfig:
+            
+            # Parse, process and persist data into a dictionary 
+            warranty, send_date = self.warranty_to_dict(r_warranty)
+            system_configuration = self.sysconfig_to_dict(r_syconfig)
+            self.data = {
+                'send_date': send_date,
+                'warranty': warranty,
+                'sysconfig': system_configuration
+            }
+
+        else:
+            self.data = {
+            'send_date': '',
+            'warranty': '',
+            'sysconfig': ''
         }
 
     def warranty_to_dict(self, content):
         '''Create a dictionary containing warranty data'''
 
         b = bs(content, 'html.parser')
-
         try:
             tr = b.find_all('tr')
             
@@ -128,6 +137,7 @@ class DellScrapper():
 
         except:
             raise errors.DellScrapperFailure("failed when passing system config to dict")
+            pass
 
         return {
             'model': model,
@@ -136,20 +146,34 @@ class DellScrapper():
         }
 
     def make_requests(self, warranty_url, sysconfig_url):
-        '''Request data from DELL'''
+        '''Request data from DELL. Returning False means the TAG was not found'''
 
         def request_warranty(url):
             '''GET request to warranty page'''
-            r = requests.get(url.format(self.conf['partnumber']))
+            __url = url.format(self.conf['partnumber'])
+            r = requests.get(__url)
+            
+            # 200 is OK
             if r.status_code != 200:
                 raise errors.RequestFailed(r.status_code)
+            
+            # diferent url means redirected because it was not found 
+            if r.url != __url:
+                return False
             return r.content
 
         def request_system_config(url):
             '''GET request to warranty page'''
-            r = requests.get(url.format(self.conf['partnumber']))
+            __url = url.format(self.conf['partnumber'])
+            r = requests.get(__url)
+
+            # 200 is OK
             if r.status_code != 200:
                 raise errors.RequestFailed(r.status_code)
+
+            # diferent url means redirected because it was not found
+            if r.url != __url:
+                return False
             return r.content
 
         response_warranty = request_warranty(warranty_url)

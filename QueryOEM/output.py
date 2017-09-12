@@ -56,7 +56,7 @@ def save_json_from_dell(path, extension, assets_list) -> bool:
         fopen = open(path + '.' + extension.lower(), 'w')
         fopen.write(JSON)
         fopen.close()
-    except:
+    except BaseException as e:
         return False
     finally:
         return True

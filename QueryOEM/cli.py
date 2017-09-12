@@ -12,8 +12,11 @@ import QueryOEM.output as out
 
 def service_tag_from_file(origin):
     '''reads the file containing tags and return a list'''
-    fopen = open(origin, 'r')
-    return fopen.readlines()
+    __tags = []
+    __fopen = open(origin, 'r')
+    for i in __fopen:
+        __tags.append(i.rstrip())
+    return __tags
 
 def query_oem(*args):
     '''CLI. Query a single tag'''
@@ -105,8 +108,10 @@ def query_from_file(*args):
     
     # Save JSON file from Dell
     if arguments['format'].upper() == 'JSON' and arguments['vendor'].upper() == 'DELL': 
-        out.save_json_from_dell(arguments['output'], arguments['format'], tag_list)
-        return '>> Process completed'
+        if not out.save_json_from_dell(arguments['output'], arguments['format'], tag_list):
+            return '>> Process with errors'
+        else:
+            return '>> Process completed'
 
 if __name__ == '__main__':
 
