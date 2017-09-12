@@ -12,15 +12,28 @@ WARNING. If you're planning to use the <MultipleQueryOEM> you need to know 2 thi
     2. The OEM may request a CAPTCHA after too much requests. Don't make your service tag list too big 
 '''
 import json
+import QueryOEM.conf as conf
+import QueryOEM.dell as dell
+import QueryOEM.errors as errors
 
-if __name__ == '__main__':
-	import conf
-	import dell
-	import errors
-else:
-	import QueryOEM.conf as conf
-	import QueryOEM.dell as dell
-	import QueryOEM.errors as errors
+AVAILABLE_OEM = [
+    'DELL',
+]
+
+AVAILABLE_FORMAT = [
+    'JSON',
+]
+
+def check_oem(input: str) -> bool:
+    if upper(input) in AVAILABLE_OEM:
+        return True
+    return False
+
+def check_format(input: str) -> bool:
+    if upper(input) in AVAILABLE_FORMAT:
+        return True
+    else:
+        return False
 
 class QueryOEM:
     '''Class responsible for the Scrapping'''

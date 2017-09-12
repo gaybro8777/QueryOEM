@@ -17,13 +17,8 @@ Don't forget to <return> the result dictionary at the end of the methods!
 import requests
 from datetime import datetime
 from bs4 import BeautifulSoup as bs
-
-if __name__ == '__main':
-	import errors
-	import converters
-else:
-	import QueryOEM.errors as errors
-	import QueryOEM.converters as converters
+import QueryOEM.errors as errors
+import QueryOEM.converters as converters
 	
 
 class DellScrapper():

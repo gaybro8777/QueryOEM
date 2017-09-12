@@ -12,10 +12,7 @@ As soon as DELL or other future supported OEM change their website
 this module may stop working. It's imperative to test this module periodcaly 
 '''
 
-if __name__ == '__main':
-	import scrapping
-else:
-	import QueryOEM.scrapping as scrapping
+import QueryOEM.scrapping as scrapping
 
 
 # Test variables 
