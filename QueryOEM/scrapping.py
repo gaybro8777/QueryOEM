@@ -25,12 +25,12 @@ AVAILABLE_FORMAT = [
 ]
 
 def check_oem(input: str) -> bool:
-    if upper(input) in AVAILABLE_OEM:
+    if input.upper() in AVAILABLE_OEM:
         return True
     return False
 
 def check_format(input: str) -> bool:
-    if upper(input) in AVAILABLE_FORMAT:
+    if input.upper() in AVAILABLE_FORMAT:
         return True
     else:
         return False
