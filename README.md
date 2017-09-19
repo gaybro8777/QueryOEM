@@ -15,17 +15,21 @@ There are two approaches. You can embbed it to your code or use it on the termin
 
 Use it on the terminal makes the task easier to achive
 
-### Query a single tag
-You can query a single tag using ```python3 -m QueryOEM.cli --tag <vendor> <servicetag>```
+### Query assets from terminal
+You can query tags using ```python3 -m QueryOEM.cli --tag output=<output> format=<format> vendor=<vendor> <servicetags>```
 
 Arguments
-- (Required) tag - Tag code
-- (Required) vendor - OEM name. Default is Dell
+- (Required) tags - Service tags, separated by space
+- (Required) output - Path to file to be saved
+- (Optional) format - Output format (Default is JSON - Only JSON available)
+- (Optional) vendor - OEM name (Default is Dell. Only Dell available)
 
 Example
-`python  -m QueryOEM.cli --tag dell A2DA3CR`
+`python  -m QueryOEM.cli --tag output=~/my_assets format=json vendor=dell A0DA0CR A1DA1CR A2DA2CR`
+`python  -m QueryOEM.cli --tag output=~/my_assets A0DA0CR A1DA1CR A2DA2CR`
+`python  -m QueryOEM.cli --tag output=C:/temp/my_assets A0DA0CR`
 
-### Query using a text file
+### Query assets from a text file
 
 You can also create a tags.txt file, add 1 tag per line and query them in one single shot
 

@@ -171,7 +171,7 @@ if __name__ == '__main__':
         result = query_from_file(*argv[1:])
         print(result)
 
-    # Single Tag
+    # Query from terminal
     elif argv[1] == '--tag':
         print('>> Requesting data from OEM...')
         result = query_oem(*argv[1:])

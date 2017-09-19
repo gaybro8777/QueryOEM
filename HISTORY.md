@@ -15,3 +15,9 @@ Query OEM for information about workstations, laptops, servers and others.
 
 1.0.3 12/09/2017
 - Small changes on CLI help text
+
+1.0.4 19/09/2017
+- CLI for --tag can be used to output a JSON file instead of terminal display
+- Added new arguments to --tag to fit new feature
+### To Do
+- Test suite

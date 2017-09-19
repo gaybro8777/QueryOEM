@@ -23,9 +23,9 @@ Example:
 '''
 
 cli_help_singletag = '''
---------------------------
-QueryOEM CLI - Single Tag
---------------------------
+-----------------------------
+QueryOEM CLI - Terminal input
+-----------------------------
 Arguments
     - (Required) tags - Service tags, separated by space
     - (Required) output - Path to file to be saved
@@ -41,7 +41,7 @@ cli_help ='''
 QueryOEM CLI
 -------------
 CLI arguments:
-    - python -m QueryOEM.cli --file : Query OEM using a a file containing tags
+    - python -m QueryOEM.cli --file : Query OEM tags within a plain text file
     - python -m QueryOEM.cli --tag : Query OEM directly from terminal
 '''
 
