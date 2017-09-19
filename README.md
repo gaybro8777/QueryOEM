@@ -24,9 +24,12 @@ Arguments
 - (Optional) format - Output format (Default is JSON - Only JSON available)
 - (Optional) vendor - OEM name (Default is Dell. Only Dell available)
 
-Example
+Examples
+
 `python  -m QueryOEM.cli --tag output=~/my_assets format=json vendor=dell A0DA0CR A1DA1CR A2DA2CR`
+
 `python  -m QueryOEM.cli --tag output=~/my_assets A0DA0CR A1DA1CR A2DA2CR`
+
 `python  -m QueryOEM.cli --tag output=C:/temp/my_assets A0DA0CR`
 
 ### Query assets from a text file
