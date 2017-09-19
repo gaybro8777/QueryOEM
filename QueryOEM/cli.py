@@ -21,23 +21,68 @@ def service_tag_from_file(origin):
 def query_oem(*args):
     '''CLI. Query a single tag'''
     leng = len(args)
-    arguments = {}
+    arguments = {'tags': []}
 
-    if leng != 3:
-        print('>> There are required parameters missing')
+    # Populate arguments
+    for argument in args[1:]:
+        split_arg = argument.split('=')
+        if len(split_arg) == 1:
+            arguments['tags'].append(argument)
+        elif len(split_arg) == 2:
+            arguments[split_arg[0].upper()] = split_arg[1]
+        else:
+            print('>> Invalid parameter: %s' % argument)
+            print(out.cli_help_singletag)
+            return
+
+    # Check if Tags was supplied
+    if len(arguments['tags']) < 1:
+        print('>> No service tag was supplied')
         print(out.cli_help_singletag)
         return
 
-    arguments['vendor'] = args[1]
-    arguments['tag'] = args[2]
+    # Check Output parameter
+    if not 'OUTPUT' in arguments.keys():
+        print('>> Output parameter is required')
+        print(out.cli_help_singletag)
+        return
+    
+    out_path, out_file = path.split(arguments['OUTPUT']) 
+    if not Path(out_path).is_dir():
+        print('>> Output path is invalid')
+        print(out.cli_help_file)
+        return
+
+    # Check format parameter
+    if not 'FORMAT' in arguments.keys():
+        arguments['FORMAT'] = 'JSON'
+    else:
+        arguments['FORMAT'] = arguments['FORMAT'].upper()
+
+    if not check_format(arguments['FORMAT']):
+        print('>> Format %s not available' % arguments['FORMAT'])
+        print(out.cli_help_singletag)
+        return
+
+    # Check Vender parameter
+    if not 'VENDOR' in arguments.keys():
+        arguments['VENDOR'] = 'DELL'
+    else:
+        arguments['VENDOR'] = arguments['VENDOR'].upper()
+    
+    if not check_oem(arguments['VENDOR']):
+        print('>> Vendor %s not available' % arguments['VENDOR'])
+        print(out.cli_help_singletag)
+        return
 
     # Query Dell
-    if arguments['vendor'].upper() == 'DELL':
-        return out.dell_single_asset(arguments['tag'])
-    else:
-        print('>> Invalid arguments')
-        print(out.cli_help_singletag)
-        return
+    if arguments['VENDOR'] == 'DELL' and arguments['FORMAT'] == 'JSON':
+        print('>> Query list: %s' % arguments['tags']) 
+        if out.save_json_from_dell(arguments['OUTPUT'], arguments['tags']):
+            return '>> Process completed'
+        else:
+            return '>> Process with errors'
+    
 
 def query_from_file(*args):
     '''CLI - Query OEM using a TAG file"'''
@@ -108,10 +153,10 @@ def query_from_file(*args):
     
     # Save JSON file from Dell
     if arguments['format'].upper() == 'JSON' and arguments['vendor'].upper() == 'DELL': 
-        if not out.save_json_from_dell(arguments['output'], arguments['format'], tag_list):
-            return '>> Process with errors'
-        else:
+        if out.save_json_from_dell(arguments['output'], tag_list):
             return '>> Process completed'
+        else:
+            return '>> Process with errors'
 
 if __name__ == '__main__':
 

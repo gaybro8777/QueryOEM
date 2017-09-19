@@ -27,10 +27,13 @@ cli_help_singletag = '''
 QueryOEM CLI - Single Tag
 --------------------------
 Arguments
-    - (Required) tag - Tag code
-    - (Required) vendor - OEM name. Default is Dell
+    - (Required) tags - Service tags, separated by space
+    - (Required) output - Path to file to be saved
+    - (Optional) format - Output format (Default is JSON - Only JSON available)
+    - (Optional) vendor - OEM name (Default is Dell. Only Dell available)
 Example:
-    - python -m QueryOEM.cli --tag dell XYZ0000
+    - python -m QueryOEM.cli --tag output=~/my_assets J2XT000 321G000
+    - python -m QueryOEM.cli --tag vendor=dell output=/temp/myassets format=json KVM0101 21T0202 J2X3003
 '''
 
 cli_help ='''
@@ -39,21 +42,16 @@ QueryOEM CLI
 -------------
 CLI arguments:
     - python -m QueryOEM.cli --file : Query OEM using a a file containing tags
-    - python -m QueryOEM.cli --tag : Query OEM using a single tag
+    - python -m QueryOEM.cli --tag : Query OEM directly from terminal
 '''
 
-def dell_single_asset(tag):
-    query = s.QueryOEM(PART_NUMBER=tag)
-    query.get_from_dell()
-    return query.dell_data
-
-def save_json_from_dell(path, extension, assets_list) -> bool:
+def save_json_from_dell(path, assets_list) -> bool:
     '''Retrieve a JSON file containing all equipments'''
     try:
         assets_list = s.MultipleQueryOEM(assets_list)
         assets_list.get_from_dell()
         JSON = assets_list.json_from_dell()
-        fopen = open(path + '.' + extension.lower(), 'w')
+        fopen = open(path + '.' + 'json', 'w')
         fopen.write(JSON)
         fopen.close()
     except BaseException as e:
